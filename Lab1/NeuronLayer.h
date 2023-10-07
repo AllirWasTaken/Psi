@@ -9,7 +9,9 @@ namespace PSI {
         NeuronLayer(int layerSize,int inputSize);
         std::vector <float> RunLayer(std::vector <float> &input);
         void SetWeightMatrix(std::vector <std::vector<float>> &input);
-        void RandomizeLayer();
+        unsigned GetNeuronCount();
+        unsigned GetInputCount();
+        void RandomizeLayer(float min=0,float max=1);
 
 
 

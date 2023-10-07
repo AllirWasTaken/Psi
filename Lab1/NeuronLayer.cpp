@@ -39,16 +39,19 @@ std::vector<float> PSI::NeuronLayer::RunLayer(std::vector<float> &input) {
 }
 
 
-void PSI::NeuronLayer::RandomizeLayer() {
-    srand(time(NULL));
+void PSI::NeuronLayer::RandomizeLayer(float min,float max) {
+    if(max<=min){
+        throw std::invalid_argument("Max has to be bigger value than min");
+    }
+    srand(time(nullptr));
     for(int i=0;i<neuronCount;i++){
         for (int j = 0; j < inputCount; ++j) {
-            weightsMatrix[i][j]=(float)(rand()%201-100)/100.0f;
+            weightsMatrix[i][j]=(float)(rand()%int((max+abs(min))*1000)-1000*abs(min))/1000.0f;
         }
     }
 
     for(int i=0;i<neuronCount;i++){
-        biasVector[i]=(float)(rand()%201-100)/100.0f;
+        biasVector[i]=(float)(rand()%int((max+abs(min))*1000)-1000*abs(min))/1000.0f;
     }
 
 
@@ -65,4 +68,11 @@ void PSI::NeuronLayer::SetWeightMatrix(std::vector<std::vector<float>> &input) {
         }
     }
     weightsMatrix=input;
+}
+
+unsigned PSI::NeuronLayer::GetNeuronCount() {
+    return neuronCount;
+}
+unsigned PSI::NeuronLayer::GetInputCount() {
+    return inputCount;
 }
