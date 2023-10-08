@@ -9,12 +9,12 @@ PSI::NeuronLayer &PSI::NeuronGrid::GetLayer(unsigned int layerNumber) {
 }
 
 void PSI::NeuronGrid::AddLayerOnBack(unsigned int size) {
-    NeuronLayer newLayer(size,layers[layers.size()-1].GetNeuronCount());
+    NeuronLayer newLayer((int)size,(int)layers[layers.size()-1].GetNeuronCount());
     layers.push_back(newLayer);
 }
 
 PSI::NeuronGrid::NeuronGrid(unsigned int firstLayerInputCount, unsigned int firstLayerNeuronCount) {
-    NeuronLayer newLayer(firstLayerNeuronCount,firstLayerInputCount);
+    NeuronLayer newLayer((int)firstLayerNeuronCount,(int)firstLayerInputCount);
     layers.push_back(newLayer);
 }
 

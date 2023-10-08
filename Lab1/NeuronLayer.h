@@ -12,6 +12,7 @@ namespace PSI {
         unsigned GetNeuronCount();
         unsigned GetInputCount();
         void RandomizeLayer(float min=0,float max=1);
+        void LoadWeightsFromFile(const char* fileName);
 
 
 

@@ -86,6 +86,26 @@ int main(){
 
 
     }
+    //Zad4
+    {
+        std::vector<float> input={0.2,0.5,0.7};
+        PSI::NeuronGrid neuronGrid(3,4);
+
+        neuronGrid.GetLayer(0).RandomizeLayer(-1,1);
+
+        neuronGrid.AddLayerOnBack(2);
+
+        neuronGrid.GetLayer(1).LoadWeightsFromFile("../weights.txt");
+
+        std::vector<float> output=neuronGrid.RunGrid(input);
+
+        std::cout<<"Zad 4\n";
+        for(int i=0;i<output.size();i++){
+            std::cout<<output[i]<<" ";
+        }
+        std::cout<<std::endl;
+
+    }
 
     return 0;
 };

@@ -9,7 +9,7 @@ PSI::NeuronLayer::NeuronLayer(int layerSize, int inputSize) {
     for (int i = 0; i <layerSize ; ++i) {
         weightsMatrix[i].resize(inputSize);
     }
-    biasVector.resize(5);
+    biasVector.resize(layerSize);
     inputCount=inputSize;
     neuronCount=layerSize;
 
@@ -75,4 +75,31 @@ unsigned PSI::NeuronLayer::GetNeuronCount() {
 }
 unsigned PSI::NeuronLayer::GetInputCount() {
     return inputCount;
+}
+
+void PSI::NeuronLayer::LoadWeightsFromFile(const char *fileName) {
+
+    FILE *f = fopen(fileName,"rt");
+    if(!f){
+        throw std::invalid_argument("File with given name cannot be opened");
+    }
+
+    int inputs,neurons;
+    fscanf(f,"%d %d",&inputs,&neurons);
+    if(inputs<1||neurons<1||inputs!=inputCount||neurons!=neuronCount){
+        throw std::invalid_argument("Matrix sizes are not matching the layer sizes");
+    }
+
+    std::vector<std::vector<float>> newMatrix;
+    newMatrix.resize(neurons);
+    for(int i=0;i<neurons;i++) {
+        for(int j=0;j<inputs;j++) {
+            float temp;
+            if (fscanf(f, "%f", &temp) == EOF) {
+                throw std::invalid_argument("File is corrupted or un matching");
+            }
+            newMatrix[i].push_back(temp);
+        }
+    }
+    SetWeightMatrix(newMatrix);
 }
