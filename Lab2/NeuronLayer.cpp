@@ -125,3 +125,45 @@ std::vector<std::vector<float>> PSI::NeuronLayer::GetWeightErrorDiff(const std::
 
     return result;
 }
+
+void PSI::NeuronLayer::UpdateLayerOnce(const std::vector<std::vector<float>> &serialInput, const std::vector<std::vector<float>> &serialTarget,float alpha) {
+    if(alpha<0||alpha>1){
+        throw std::invalid_argument("Alpha is negative or above one");
+    }
+    if(serialInput.size()!=serialTarget.size()){
+        throw std::invalid_argument("Input series size is not matching target series size");
+    }
+for(int i=0;i<serialInput.size();i++){
+    std::vector<std::vector<float>> errorMatrix= GetWeightErrorDiff(serialInput[i],serialTarget[i]);
+    for(int y=0;y<neuronCount;y++){
+        for(int x=0;x<inputCount;x++){
+            weightsMatrix[y][x]-=alpha*errorMatrix[y][x];
+        }
+    }
+}
+
+
+
+}
+
+void PSI::NeuronLayer::TeachLayer(const std::vector<std::vector<float>> &serialInput,const std::vector<std::vector<float>> &serialTarget,unsigned int eraCount, float alpha) {
+    for(int i=0;i<eraCount;i++){
+        UpdateLayerOnce(serialInput,serialTarget,alpha);
+    }
+}
+
+double PSI::NeuronLayer::GetError(const std::vector<std::vector<float>> &serialInput, const std::vector<std::vector<float>> &serialTarget) {
+    double result=0;
+
+    for(int j=0;j<serialInput.size();j++){
+        std::vector<float> output= RunLayer(serialInput[j]);
+        double temp=0;
+        for(int i=0;i<neuronCount;i++){
+            temp+=(output[i]-serialTarget[j][i])*(output[i]-serialTarget[j][i]);
+        }
+        temp/=(double)neuronCount;
+        result+=temp;
+    }
+
+    return result;
+}
