@@ -7,7 +7,7 @@ namespace PSI {
 
     class NeuronGrid {
     public:
-        std::vector<float> RunGrid(std::vector<float> &input);
+        std::vector<double> RunGrid(std::vector<double> &input);
         void AddLayerOnBack(unsigned size);
         NeuronLayer &GetLayer(unsigned layerNumber);
         NeuronGrid(unsigned firstLayerInputCount,unsigned firstLayerNeuronCount);

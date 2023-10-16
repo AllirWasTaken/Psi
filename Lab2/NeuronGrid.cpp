@@ -18,11 +18,11 @@ PSI::NeuronGrid::NeuronGrid(unsigned int firstLayerInputCount, unsigned int firs
     layers.push_back(newLayer);
 }
 
-std::vector<float> PSI::NeuronGrid::RunGrid(std::vector<float> &input) {
+std::vector<double> PSI::NeuronGrid::RunGrid(std::vector<double> &input) {
     if(input.size()!=layers[0].GetInputCount()){
         throw std::invalid_argument("Invalid input vector size");
     }
-    std::vector<float> result=input;
+    std::vector<double> result=input;
 
     for(int i=0;i<layers.size();i++){
         result=layers[i].RunLayer(result);
