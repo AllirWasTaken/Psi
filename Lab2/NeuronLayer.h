@@ -15,7 +15,7 @@ namespace PSI {
         void LoadWeightsFromFile(const char* fileName);
         void TeachLayer(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,unsigned eraCount,double alpha);
         void UpdateLayerOnce(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,double alpha);
-        double GetError(const std::vector<std::vector<double>> &serialInput, const std::vector<std::vector<double>> &serialTarget);
+        double TeachAndGetError(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,double alpha);
         unsigned TestGrid(const std::vector<std::vector<double>> &serialInput, const std::vector<std::vector<double>> &serialTarget);
 
     private:

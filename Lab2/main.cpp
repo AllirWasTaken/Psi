@@ -37,10 +37,10 @@ int main(){
         double alpha=0.1;
 
         printf("Zad1\n");
-        singleNeuron.TeachLayer(input,target,5,alpha);
-        printf("Error po 5: %.20lf\n",singleNeuron.GetError(input,target));
-        singleNeuron.TeachLayer(input,target,15,alpha);
-        printf("Error po 20: %.20lf\n",singleNeuron.GetError(input,target));
+        singleNeuron.TeachLayer(input,target,3,alpha);
+        printf("Error po 5: %.40lf\n", singleNeuron.TeachAndGetError(input, target,alpha));
+        singleNeuron.TeachLayer(input,target,14,alpha);
+        printf("Error po 20: %.40lf\n", singleNeuron.TeachAndGetError(input, target,alpha));
 
 
     }
@@ -73,9 +73,9 @@ int main(){
         layer.SetWeightMatrix(weightMatrix);
         printf("Zad2\n");
 
-        layer.TeachLayer(input,target,1000,0.01);
+        layer.TeachLayer(input,target,999,0.01);
 
-        printf("Error po 1000 epokach: %lf\n",layer.GetError(input,target));
+        printf("Error po 1000 epokach: %lf\n", layer.TeachAndGetError(input, target,0.01));
 
     }
     //Zad3
@@ -97,7 +97,7 @@ int main(){
         int hardening=5;
 
         for(int i=0;i<1000;i++){
-            printf("Skutecznosc po %d epokach: ",i);
+            printf("Skutecznosc po %d epokach: ",i+1);
             kolory.TeachLayer(inputTrain,targetTrain,1,0.01);
             int testResult=kolory.TestGrid(inputTest,targetTest);
             printf("%d/%d   %.02f%\n",testResult,inputTest.size(),(float)testResult/(float)inputTest.size()*100.0f);
