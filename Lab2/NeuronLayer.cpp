@@ -159,6 +159,7 @@ double PSI::NeuronLayer::TeachAndGetError(const std::vector<std::vector<double>>
 
         std::vector<double> output= RunLayer(serialInput[j]);
         double temp=0;
+        //TODO: Optimize Error 
         for(int i=0;i<neuronCount;i++){
             temp+=(output[i]-serialTarget[j][i])*(output[i]-serialTarget[j][i]);
         }
