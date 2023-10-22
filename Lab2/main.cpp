@@ -25,6 +25,7 @@ void LoadSerialDataFromFile(const char* filename,std::vector<std::vector<double>
 }
 
 
+
 int main(){
 
     //Zad1
@@ -37,10 +38,8 @@ int main(){
         double alpha=0.1;
 
         printf("Zad1\n");
-        singleNeuron.TeachLayer(input,target,3,alpha);
-        printf("Error po 5: %.40lf\n", singleNeuron.TeachAndGetError(input, target,alpha));
-        singleNeuron.TeachLayer(input,target,14,alpha);
-        printf("Error po 20: %.40lf\n", singleNeuron.TeachAndGetError(input, target,alpha));
+        printf("Error po 5: %.40lf\n", singleNeuron.TeachLayer(input, target,5,alpha));
+        printf("Error po 20: %.40lf\n", singleNeuron.TeachLayer(input, target,15,alpha));
 
 
     }
@@ -73,9 +72,9 @@ int main(){
         layer.SetWeightMatrix(weightMatrix);
         printf("Zad2\n");
 
-        layer.TeachLayer(input,target,999,0.01);
 
-        printf("Error po 1000 epokach: %lf\n", layer.TeachAndGetError(input, target,0.01));
+
+        printf("Error po 1000 epokach: %lf\n", layer.TeachLayer(input,target,1000,0.01));
 
     }
     //Zad3
@@ -89,8 +88,8 @@ int main(){
         LoadSerialDataFromFile("../testData.txt",inputTest,targetTest);
         LoadSerialDataFromFile("../trainData.txt",inputTrain,targetTrain);
 
-        PSI::NeuronLayer kolory(4,3);
-        kolory.RandomizeLayer(-1,1);
+        PSI::NeuronLayer maciek(4, 3);
+        maciek.RandomizeLayer(-1, 1);
 
         printf("Zad3\n");
 
@@ -98,8 +97,8 @@ int main(){
 
         for(int i=0;i<1000;i++){
             printf("Skutecznosc po %d epokach: ",i+1);
-            kolory.TeachLayer(inputTrain,targetTrain,1,0.01);
-            int testResult=kolory.TestGrid(inputTest,targetTest);
+            maciek.TeachLayer(inputTrain, targetTrain, 1, 0.01);
+            int testResult=maciek.TestGrid(inputTest, targetTest);
             printf("%d/%d   %.02f%\n",testResult,inputTest.size(),(float)testResult/(float)inputTest.size()*100.0f);
             if(testResult==inputTest.size()){
                 hardening--;
@@ -109,6 +108,8 @@ int main(){
                 }
             }
         }
+        std::vector<double> opowiedz=maciek.RunLayer(inputTest[1]);
+
 
     }
 

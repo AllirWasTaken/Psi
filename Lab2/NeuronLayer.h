@@ -13,13 +13,11 @@ namespace PSI {
         unsigned GetInputCount();
         void RandomizeLayer(double min=0,double max=1);
         void LoadWeightsFromFile(const char* fileName);
-        void TeachLayer(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,unsigned eraCount,double alpha);
-        void UpdateLayerOnce(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,double alpha);
-        double TeachAndGetError(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,double alpha);
+        double TeachLayer(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,unsigned eraCount,double alpha);
+        double UpdateLayerOnce(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,double alpha);
         unsigned TestGrid(const std::vector<std::vector<double>> &serialInput, const std::vector<std::vector<double>> &serialTarget);
 
     private:
-        std::vector<std::vector<double>>  GetWeightErrorDiff(const std::vector<double> &input,const std::vector<double> &target);
         std::vector<std::vector<double>> weightsMatrix;
         std::vector<double> biasVector;
         int neuronCount;
