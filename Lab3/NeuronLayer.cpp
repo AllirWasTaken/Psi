@@ -4,7 +4,8 @@
 #include <ctime>
 
 
-PSI::NeuronLayer::NeuronLayer(int layerSize, int inputSize) {
+PSI::NeuronLayer::NeuronLayer(int layerSize, int inputSize,
+                              double(*activationFunction)(double),double(*activationDevFunc)(double)) {
     weightsMatrix.resize(layerSize);
     for (int i = 0; i <layerSize ; ++i) {
         weightsMatrix[i].resize(inputSize);
@@ -12,7 +13,8 @@ PSI::NeuronLayer::NeuronLayer(int layerSize, int inputSize) {
     biasVector.resize(layerSize);
     inputCount=inputSize;
     neuronCount=layerSize;
-
+    funcA=activationFunction;
+    funcDev=activationDevFunc;
 }
 
 
@@ -34,8 +36,13 @@ std::vector<double> PSI::NeuronLayer::RunLayer(const std::vector<double> &input)
         result.push_back(sum);
     }
 
-    return result;
+    if(funcA){
+       for(int i=0;i<result.size();i++){
+           result[i]=funcA(result[i]);
+       }
+    }
 
+    return result;
 }
 
 
@@ -145,7 +152,7 @@ double PSI::NeuronLayer::UpdateLayerOnce(const std::vector<std::vector<double>> 
     return errResult;
 }
 
-double PSI::NeuronLayer::TeachLayer(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget,unsigned int eraCount, double alpha) {
+double PSI::NeuronLayer::TeachLayer(const std::vector<std::vector<double>> &serialInput,const std::vector<std::vector<double>> &serialTarget, double alpha, unsigned eraCount) {
     double errResult;
     for(int i=0;i<eraCount;i++){
         errResult=UpdateLayerOnce(serialInput,serialTarget,alpha);
@@ -178,4 +185,8 @@ unsigned PSI::NeuronLayer::TestGrid(const std::vector<std::vector<double>> &seri
     }
 
     return result;
+}
+
+void PSI::NeuronLayer::SetCalculateError(bool calcError) {
+    errorCalc=calcError;
 }
