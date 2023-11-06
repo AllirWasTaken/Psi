@@ -11,8 +11,7 @@ double ActivationFunctions::RectifiedLinearUnit(double x) {
 }
 
 double ActivationFunctions::RectifiedLinearUnitDer(double x) {
-    if(x<=0)return 0;
-    else return x;
+    return x > 0;
 }
 
 

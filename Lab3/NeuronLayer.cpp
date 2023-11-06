@@ -1,5 +1,4 @@
 #include "NeuronLayer.h"
-#include <random>
 #include <stdexcept>
 #include <ctime>
 
