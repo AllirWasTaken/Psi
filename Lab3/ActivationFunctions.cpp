@@ -5,16 +5,31 @@
 #include "ActivationFunctions.h"
 
 
-double ActivationFunctions::RectifiedLinearUnit(double x) {
-    if(x<=0)return 0;
-    else return x;
+void ActivationFunctions::RectifiedLinearUnit(ALib::Matrix & matrix) {
+    for(int y=0;y<matrix.Height();y++){
+        for(int x=0;x<matrix.Width();x++){
+            matrix[y][x]*=matrix[y][x]>0;
+        }
+    }
 }
 
-double ActivationFunctions::RectifiedLinearUnitDer(double x) {
-    return x > 0;
+void ActivationFunctions::RectifiedLinearUnitDer(ALib::Matrix & matrix) {
+    for(int y=0;y<matrix.Height();y++){
+        for(int x=0;x<matrix.Width();x++){
+            matrix[y][x]=matrix[y][x]>0;
+        }
+    }
 }
 
 
 double ActivationFunctions::SigmaFunc(double x) {
     return x*(1-x);
+}
+
+void *ActivationFunctions::GetFunc(FunctionsSelection id) {
+    switch (id) {
+        case RLU: return (void*)ActivationFunctions::RectifiedLinearUnit;
+        case D_RLU: return (void*)ActivationFunctions::RectifiedLinearUnitDer;
+        default: return nullptr;
+    }
 }

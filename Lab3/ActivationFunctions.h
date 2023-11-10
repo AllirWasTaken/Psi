@@ -1,11 +1,19 @@
 #ifndef LAB2_ACTIVATIONFUNCTIONS_H
 #define LAB2_ACTIVATIONFUNCTIONS_H
+#include "Matrix.h"
 
+enum FunctionsSelection{
+    NONE,
+    RLU,
+    D_RLU,
+    DUMMY
+};
 
 class ActivationFunctions {
 public:
-    static double RectifiedLinearUnit(double);
-    static double RectifiedLinearUnitDer(double);
+    static void* GetFunc(FunctionsSelection id);
+    static void RectifiedLinearUnit(ALib::Matrix &);
+    static void RectifiedLinearUnitDer(ALib::Matrix &);
     static double SigmaFunc(double);
 
 };

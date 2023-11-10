@@ -3,8 +3,8 @@ project(Lab3)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Lab3 main.cpp NeuronLayer.h NeuronLayer.cpp
-        NeuronGrid.h NeuronGrid.cpp
+add_executable(Lab3 main.cpp
         ActivationFunctions.cpp ActivationFunctions.h
         Matrix.h Matrix.cpp
+        NeuralNetwork.cpp NeuralNetwork.h
 )
