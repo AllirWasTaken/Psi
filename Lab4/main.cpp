@@ -158,7 +158,7 @@ int main(){
         float percentage=100;
         while(true) {
             if(Train){
-                imageNumberRecognition.UpdateMiniBatch(trainInput, trainExpected, 0.001,
+                imageNumberRecognition.UpdateMiniBatch(trainInput, trainExpected, 0.02,
                                                        100, updatesPerTest, 0.5);
             }
             if(Test) {

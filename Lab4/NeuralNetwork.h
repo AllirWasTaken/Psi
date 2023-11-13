@@ -2,8 +2,6 @@
 #define PSI_NEURAL_NETWORK_H
 #include "ActivationFunctions.h"
 
-struct BatchedThreadingArgs;
-
 class NeuralNetwork {
 private:
     std::vector<ALib::Matrix> network;
@@ -23,13 +21,5 @@ public:
     void UpdateMiniBatch(const ALib::Matrix &input, const ALib::Matrix &expected, float alpha, unsigned batchSize, unsigned iterationsCount, float dropOut=0);
 };
 
-struct BatchedThreadingArgs{
-    ALib::Matrix *input;
-    ALib::Matrix *expected;
-    float alpha;
-    NeuralNetwork network;
-    std::vector<ALib::Matrix>* output;
-    std::vector<ALib::Matrix> *dropOutMatrix;
-    float dropOut;
-};
+
 #endif //PSI_NEURAL_NETWORK_H
