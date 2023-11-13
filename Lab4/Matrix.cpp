@@ -1,7 +1,6 @@
 #include "Matrix.h"
-
 #include <stdexcept>
-#include <time.h>
+#include <ctime>
 
 
 using namespace ALib;
