@@ -11,8 +11,9 @@ public:
     void AddLayer(ALib::Matrix &newWeightMatrix,void(*aFunc)(ALib::Matrix&)=nullptr,void(*aFuncDev)(ALib::Matrix&)=nullptr);
     void AddRandomLayer(unsigned neuronCount,void(*aFunc)(ALib::Matrix&)=nullptr,void(*aFuncDev)(ALib::Matrix&)=nullptr);
     ALib::Matrix Run(const ALib::Matrix &input);
-    void Update(const ALib::Matrix &input, const ALib::Matrix &expected,double alpha);
+    void Update(const ALib::Matrix &input, const ALib::Matrix &expected,float alpha);
     void SaveToFile(const char* fileName);
     void LoadFromFile(const char* fileName);
+    unsigned TestAndScore(const ALib::Matrix &input, const ALib::Matrix &expected);
 };
 #endif //PSI_NEURAL_NETWORK_H

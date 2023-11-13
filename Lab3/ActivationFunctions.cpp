@@ -8,7 +8,9 @@
 void ActivationFunctions::RectifiedLinearUnit(ALib::Matrix & matrix) {
     for(int y=0;y<matrix.Height();y++){
         for(int x=0;x<matrix.Width();x++){
-            matrix[y][x]*=matrix[y][x]>0;
+            if(matrix[y][x]<=0) {
+                matrix[y][x] = 0;
+            }
         }
     }
 }
@@ -16,7 +18,12 @@ void ActivationFunctions::RectifiedLinearUnit(ALib::Matrix & matrix) {
 void ActivationFunctions::RectifiedLinearUnitDer(ALib::Matrix & matrix) {
     for(int y=0;y<matrix.Height();y++){
         for(int x=0;x<matrix.Width();x++){
-            matrix[y][x]=matrix[y][x]>0;
+            if(matrix[y][x]>0) {
+                matrix[y][x] =1;
+            }
+            else{
+                matrix[y][x] =0;
+            }
         }
     }
 }

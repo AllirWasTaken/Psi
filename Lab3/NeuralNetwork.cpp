@@ -42,7 +42,7 @@ void NeuralNetwork::AddRandomLayer(unsigned int neuronCount, void (*aFunc)(ALib:
     srand(time(nullptr));
     for(int y=0;y<newMatrix.Height();y++){
         for(int x=0;x<newMatrix.Width();x++){
-            newMatrix[y][x]=rand()/RAND_MAX*20-10;
+            newMatrix[y][x]=(float)rand()/(float)RAND_MAX*20-10;
         }
     }
 
@@ -51,7 +51,7 @@ void NeuralNetwork::AddRandomLayer(unsigned int neuronCount, void (*aFunc)(ALib:
     devActivationFunctions.push_back(aFuncDev);
 }
 
-void NeuralNetwork::Update(const ALib::Matrix &input, const ALib::Matrix &expected, double alpha) {
+void NeuralNetwork::Update(const ALib::Matrix &input, const ALib::Matrix &expected, float alpha) {
     for(int serial=0;serial<input.Width();serial++){
         Matrix currentInput(1,input.Height());
         for(int y=0;y<input.Height();y++){
@@ -86,7 +86,7 @@ void NeuralNetwork::Update(const ALib::Matrix &input, const ALib::Matrix &expect
             if(!flag){
                 flag++;
                 layersDeltas[i]=(layersOutputs[i]-currentExpected);
-                layersDeltas[i]*=(2.0f/(double)network[i].Height());
+                layersDeltas[i]*=(2.0f/(float)network[i].Height());
                 continue;
             }
             layersDeltas[i]=network[i+1].Transpose()*layersDeltas[i+1];
@@ -154,8 +154,8 @@ void NeuralNetwork::SaveToFile(const char *fileName) {
 
         for(int y=0;y<network[i].Height();y++){
             for(int x=0;x<network[i].Width();x++){
-                double tempD=network[i][y][x];
-                fwrite(&tempD,sizeof(double),1,f);
+                float tempD=network[i][y][x];
+                fwrite(&tempD,sizeof(float),1,f);
             }
         }
 
@@ -189,10 +189,10 @@ void NeuralNetwork::LoadFromFile(const char *fileName) {
         fread(&h,sizeof(int),1,f);
         Matrix loadMatrix(w,h);
 
-        double tempD;
+        float tempD;
         for(int y=0;y<loadMatrix.Height();y++){
             for(int x=0;x<loadMatrix.Width();x++){
-                fread(&tempD,sizeof(double),1,f);
+                fread(&tempD,sizeof(float),1,f);
                 loadMatrix[y][x]=tempD;
             }
         }
@@ -200,4 +200,36 @@ void NeuralNetwork::LoadFromFile(const char *fileName) {
     }
 
     fclose(f);
+}
+
+unsigned int NeuralNetwork::TestAndScore(const ALib::Matrix &input, const ALib::Matrix &expected) {
+    unsigned result=0;
+
+    Matrix answers;
+    answers=Run(input);
+
+
+
+    for(int i=0;i<expected.Width();i++){
+        unsigned correct=11;
+        for(int j=0;j<expected.Height();j++){
+            if(expected[j][i]==1){
+                correct=j;
+                break;
+            }
+        }
+        float max=answers[0][i];
+        unsigned maxI=0;
+        for(int j=0;j<expected.Height();j++){
+            if(answers[j][i]>max){
+                maxI=j;
+                max=answers[j][i];
+            }
+        }
+        if(maxI==correct)result++;
+    };
+
+
+
+    return result;
 }
