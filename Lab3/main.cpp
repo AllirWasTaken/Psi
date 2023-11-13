@@ -227,7 +227,7 @@ int main() {
         float percentage=100;
        while(true) {
            for (int i = 0; i < updatesPerTest&&Train; i++) {
-               imageNumberRecognition.Update(trainInput, trainExpected, 0.000001);
+               imageNumberRecognition.Update(trainInput, trainExpected, 0.001);
            }
            if(Test) {
                unsigned right = imageNumberRecognition.TestAndScore(testInput, testExpected);
