@@ -33,7 +33,7 @@ void LoadDataBase(const char *labelName,const char *imagesName,Matrix &input,Mat
        labelCount=testUnion.number;
     }
 
-    //labelCount=1000;
+    labelCount=10000;
 
     Matrix newExpected(labelCount,10);
     newExpected.SetZero();
@@ -209,6 +209,7 @@ int main() {
         NeuralNetwork imageNumberRecognition;
         //Do it only to initialize network
 
+
         Matrix inputLayer(784,40);
         Matrix outputLayer(40,10);
 
@@ -219,10 +220,10 @@ int main() {
         imageNumberRecognition.AddLayer(outputLayer);
 
 
-       imageNumberRecognition.LoadFromFile("../imageNumberRecognition.ai");
+       //imageNumberRecognition.LoadFromFile("../imageNumberRecognition.ai");
         float targetScore=90.0f;
         int updatesPerTest=1;
-        bool Train= false;
+        bool Train= true;
         bool Test = true;
         float percentage=100;
        while(true) {
@@ -234,7 +235,7 @@ int main() {
                percentage = (float) right / (float)testInput.Width() * 100;
                std::cout << "Test score: " << right << "/" << testInput.Width() << " " << percentage << "%" << '\n';
            }
-           if(Train)imageNumberRecognition.SaveToFile("../imageNumberRecognition.ai");
+           //if(Train)imageNumberRecognition.SaveToFile("../imageNumberRecognition.ai");
            if(percentage>=targetScore||!Train)break;
        }
 

@@ -6,6 +6,11 @@ enum FunctionsSelection{
     NONE,
     RLU,
     D_RLU,
+    SIG,
+    TANH,
+    SOFT,
+    D_SIG,
+    D_TANH,
     DUMMY
 };
 
@@ -14,8 +19,11 @@ public:
     static void* GetFunc(FunctionsSelection id);
     static void RectifiedLinearUnit(ALib::Matrix &);
     static void RectifiedLinearUnitDer(ALib::Matrix &);
-    static double SigmaFunc(double);
-
+    static void Sigmoidal(ALib::Matrix &);
+    static void SigmoidalDer(ALib::Matrix &);
+    static void TangensHiperbolic(ALib::Matrix &);
+    static void TangensHiperbolicDer(ALib::Matrix &);
+    static void SoftMax(ALib::Matrix &);
 };
 
 

@@ -394,9 +394,9 @@ void NeuralNetwork::UpdateMiniBatch(const ALib::Matrix &input, const ALib::Matri
 
                 //Use devFunctions
                 for(int i=0;i<network.size();i++){
-                    if(activationFunctions[i]) {
+                    if(devActivationFunctions[i]) {
                         Matrix derv = layersOutputs[i];
-                        activationFunctions[i](derv);
+                        devActivationFunctions[i](derv);
                         layersDeltas[i]=layersDeltas[i].MultiplyIndexByIndex(derv);
                     }
                 }

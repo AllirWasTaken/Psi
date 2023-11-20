@@ -8,7 +8,6 @@ private:
     std::vector<void(*)(ALib::Matrix&)> activationFunctions;
     std::vector<void(*)(ALib::Matrix&)> devActivationFunctions;
     static ALib::Matrix GetDropOutMatrix(ALib::Matrix& matrixFor, float dropOut);
-    static void BatchedUpdateWeightDiff(BatchedThreadingArgs *args);
 public:
     NeuralNetwork()=default;
     void AddLayer(ALib::Matrix &newWeightMatrix,void(*aFunc)(ALib::Matrix&)=nullptr,void(*aFuncDev)(ALib::Matrix&)=nullptr);
