@@ -104,7 +104,7 @@ int main(){
         float targetScore=98.0f;
         int updatesPerTest=1;
         bool Train= false;
-        bool Test = false;
+        bool Test = true;
         float percentage=100;
        while(true) {
 
@@ -151,10 +151,10 @@ int main(){
         */
 
         imageNumberRecognition.LoadFromFile("../100batching60000data100neurons50dropOut.ai");
-        float targetScore=95.0f;
+        float targetScore=90.0f;
         int updatesPerTest=1;
         bool Train= false;
-        bool Test = false;
+        bool Test = true;
         float percentage=100;
         while(true) {
             if(Test) {
@@ -164,7 +164,7 @@ int main(){
             }
             if(percentage>=targetScore||!Train)break;
             if(Train){
-                imageNumberRecognition.UpdateMiniBatch(trainInput, trainExpected, 0.02,
+                imageNumberRecognition.UpdateMiniBatch(trainInput, trainExpected, 0.05,
                                                        100, updatesPerTest, 0.5);
             }
             if(Train)imageNumberRecognition.SaveToFile("../100batching60000data100neurons50dropOut.ai");
@@ -198,7 +198,7 @@ int main(){
         imageNumberRecognition.LoadFromFile("../TanHSoftMax100batching60000data100neurons50dropOut.ai");
         float targetScore=92.0f;
         int updatesPerTest=1;
-        bool Train= true;
+        bool Train= false;
         bool Test = true;
         float percentage=100;
         while(true) {
