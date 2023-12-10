@@ -10,6 +10,12 @@ enum LayerType{
     Convolution,
     FullyConnected
 };
+struct convStruct{
+    int
+    filterX,
+    filterY,
+    filterCount;
+};
 
 
 class ConvolutionNeuralNetwork {
@@ -17,6 +23,7 @@ private:
     std::vector<ALib::Matrix> layers;
     std::vector<LayerType> typeOfLayer;
     std::vector<int> pooling;
+    std::vector<convStruct> convolutionStruct;
     std::vector<void(*)(ALib::Matrix&)> activationFunctions;
     std::vector<void(*)(ALib::Matrix&)> devActivationFunctions;
 
