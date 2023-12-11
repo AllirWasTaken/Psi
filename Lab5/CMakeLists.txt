@@ -7,3 +7,7 @@ add_executable(Lab5 main.cpp
         ConvolutionNeuralNetwork.cpp
         ConvolutionNeuralNetwork.h
         Matrix.cpp Matrix.h)
+
+
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")

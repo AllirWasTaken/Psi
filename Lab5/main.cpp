@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdint>
-#include "Matrix.h"
+#include "ConvolutionNeuralNetwork.h"
 
 using namespace ALib;
 
@@ -31,7 +31,7 @@ void LoadDataBase(const char *labelName,const char *imagesName,Matrix &input,Mat
         labelCount=testUnion.number;
     }
 
-    //labelCount=1000;
+    labelCount=100;
 
     Matrix newExpected(labelCount,10);
     newExpected.SetZero();
@@ -80,11 +80,54 @@ void LoadDataBase(const char *labelName,const char *imagesName,Matrix &input,Mat
 
 
 void Zad1(){
+    Matrix inputImage,filter,output;
+    inputImage={
+            {1,1,1,0,0},
+            {0,1,1,1,0},
+            {0,0,1,1,1},
+            {0,0,1,1,0},
+            {0,1,1,0,0}
+    };
+    filter={
+            {1,0,1},
+            {0,1,0},
+            {1,0,1}
+    };
+    int stride=1;
 
+    output= ConvolutionTask1(inputImage,filter,stride);
+    std::cout<<"Zad 1"<<std::endl;
+    std::cout<<output<<std::endl;
 }
 
 
 void Zad2(){
+
+    std::cout<<"Zad 2"<<std::endl;
+
+    Matrix filters(9,16);
+    filters.Randomize(-0.01,0.01);
+    Matrix outputLater(10816,10); //10816 to 16 filtrów x 676 powarstwowanych obrazów
+    outputLater.Randomize(-0.1,0.1);
+
+    Matrix testData,testExpected;
+    Matrix trainData,trainExpected;
+    LoadDataBase("../t10k-labels.idx1-ubyte","../t10k-images.idx3-ubyte",testData,testExpected);
+    LoadDataBase("../train-labels.idx1-ubyte","../train-images.idx3-ubyte",trainData,trainExpected);
+
+
+
+
+    for(int i=0;i<50;i++){
+        int score=Test2(testData,testExpected,filters,outputLater);
+        std::cout<<"Era "<<i+1<<score<<"/10000 "<<(float)score/100.0f<<"%"<<std::endl;
+        ConvolutionUpdate2(trainData,trainExpected,filters,outputLater,0.01);
+    }
+
+
+
+
+
 
 }
 
@@ -96,6 +139,7 @@ void Zad3(){
 
 int main() {
     //Zad1();
-    //Zad2();
+    Zad2();
     //Zad3();
+    return 0;
 }

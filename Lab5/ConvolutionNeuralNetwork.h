@@ -2,52 +2,17 @@
 #define LAB5_CONVOLUTIONNEURALNETWORK_H
 
 #include "Matrix.h"
-#include <vector>
+
+ALib::Matrix ConvolutionTask1(ALib::Matrix &input,ALib::Matrix &filtr, int stride);
+ALib::Matrix ConvolutionRun2(const ALib::Matrix &input,const ALib::Matrix& convolution, ALib::Matrix& neuralGrid);
+ALib::Matrix ConvolutionRun3(const ALib::Matrix &input);
+ALib::Matrix ConvolutionUpdate2(ALib::Matrix &input, ALib::Matrix &expected, ALib::Matrix& convolution, ALib::Matrix& neuralGrid, float alpha);
+ALib::Matrix ConvolutionUpdate3(ALib::Matrix &input, ALib::Matrix &expected);
+int Test2(ALib::Matrix &input, ALib::Matrix &expected, ALib::Matrix& convolution, ALib::Matrix& neuralGrid);
+int Test3(ALib::Matrix &input, ALib::Matrix &expected);
 
 
 
-enum LayerType{
-    Convolution,
-    FullyConnected
-};
-struct convStruct{
-    int
-    filterX,
-    filterY,
-    filterCount;
-};
-
-
-class ConvolutionNeuralNetwork {
-private:
-    std::vector<ALib::Matrix> layers;
-    std::vector<LayerType> typeOfLayer;
-    std::vector<int> pooling;
-    std::vector<convStruct> convolutionStruct;
-    std::vector<void(*)(ALib::Matrix&)> activationFunctions;
-    std::vector<void(*)(ALib::Matrix&)> devActivationFunctions;
-
-
-
-
-public:
-    void AddConvolution(int filterX,int filterY,int filterCount,int inputX,int inputY, int pooling
-        ,void(*aFunc)(ALib::Matrix&)=nullptr,void(*aFuncDev)(ALib::Matrix&)=nullptr);
-    void AddFullyConnected(int inputs, int neurons
-        , void(*aFunc)(ALib::Matrix &)=nullptr, void(*aFuncDev)(ALib::Matrix &)=nullptr);
-    ALib::Matrix Run(ALib::Matrix &input);
-    ALib::Matrix Update(ALib::Matrix &input,ALib::Matrix &expected,float alpha);
-
-
-
-
-
-
-
-
-
-
-};
 
 
 #endif //LAB5_CONVOLUTIONNEURALNETWORK_H
