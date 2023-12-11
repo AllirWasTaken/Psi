@@ -157,15 +157,18 @@ ALib::Matrix ConvolutionRun3(const ALib::Matrix &input,const ALib::Matrix& convo
         Matrix convOut=imageSegmented*convolution.Transpose();
         ActivationFunctions::RectifiedLinearUnit(convOut);
 
-        Matrix convPooled(convOut.Width()/2,convOut.Height());
+        Matrix convPooled(convOut.Width()/2,convOut.Height()/2);
         for(int y=0;y<convOut.Height();y+=2){
             for(int x=0;x<convOut.Width();x+=2){
-                float max=convOut[0][0];
+                float max=convOut[y][x];
                 for (int poolY = 0; poolY < 2; ++poolY) {
                     for (int poolX = 0; poolX < 2; ++poolX) {
-
+                        if(convOut[y+poolY][x+poolX]>max){
+                            max=convOut[y+poolY][x+poolX];
+                        }
                     }
                 }
+                convPooled[y/2][x/2]=max;
             }
         }
 
@@ -318,24 +321,52 @@ void ConvolutionUpdate3(ALib::Matrix &input, ALib::Matrix &expected, ALib::Matri
 
         Matrix convOut=imageSegmented*convolution.Transpose();
         ActivationFunctions::RectifiedLinearUnit(convOut);
-        Matrix flatConv= FlatLine(convOut);
+        Matrix convPooled(convOut.Width()/2,convOut.Height()/2);
+        for(int y=0;y<convOut.Height();y+=2){
+            for(int x=0;x<convOut.Width();x+=2){
+                float max=convOut[y][x];
+                for (int poolY = 0; poolY < 2; ++poolY) {
+                    for (int poolX = 0; poolX < 2; ++poolX) {
+                        if(convOut[y+poolY][x+poolX]>max){
+                            max=convOut[y+poolY][x+poolX];
+                        }
+                    }
+                }
+                convPooled[y/2][x/2]=max;
+            }
+        }
+
+        Matrix flatConv= FlatLine(convPooled);
         flatConv=flatConv.Transpose();
         Matrix neuralOut=neuralGrid*flatConv;
 
         Matrix neuralDelta=(neuralOut-currentExpected)*(float)2/(float)neuralGrid.Height();
         Matrix convDelta=neuralGrid.Transpose()*neuralDelta;
-        Matrix reshapedConvDelta(convOut.Width(),convOut.Height());
-        for(int y=0;y<convOut.Height();y++){
-            for(int x=0;x<convOut.Width();x++){
-                reshapedConvDelta[y][x]=convDelta[y*convOut.Width()+x][0];
+        Matrix reshapedConvDelta(convPooled.Width(),convPooled.Height());
+        for(int y=0;y<convPooled.Height();y++){
+            for(int x=0;x<convPooled.Width();x++){
+                reshapedConvDelta[y][x]=convDelta[y*convPooled.Width()+x][0];
             }
         }
+
+        Matrix rePooledConvDelta(convOut.Width(),convOut.Height());
+
+        for(int y=0;y<convOut.Height();y+=2){
+            for(int x=0;x<convOut.Width();x+=2){
+                for (int poolY = 0; poolY < 2; ++poolY) {
+                    for (int poolX = 0; poolX < 2; ++poolX) {
+                        rePooledConvDelta[y+poolY][x+poolX]=reshapedConvDelta[y/2][x/2];
+                    }
+                }
+            }
+        }
+
         Matrix reluDet=convOut;
         ActivationFunctions::RectifiedLinearUnitDer(reluDet);
-        reshapedConvDelta=reshapedConvDelta.MultiplyIndexByIndex(reluDet);
+        rePooledConvDelta=rePooledConvDelta.MultiplyIndexByIndex(reluDet);
 
         Matrix outputWeight=neuralDelta*flatConv.Transpose();
-        Matrix convWeight=reshapedConvDelta.Transpose()*imageSegmented;
+        Matrix convWeight=rePooledConvDelta.Transpose()*imageSegmented;
 
         neuralGrid=neuralGrid-outputWeight*alpha;
         convolution=convolution-convWeight*alpha;

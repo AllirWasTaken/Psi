@@ -138,7 +138,7 @@ void Zad3(){
 
     Matrix filters(9,16);
     filters.Randomize(-0.01,0.01);
-    Matrix outputLater(274,10); //10816 to 16 filtrów x 676 powarstwowanych obrazów/4pooling
+    Matrix outputLater(2704,10); //10816 to 16 filtrów x 676 powarstwowanych obrazów/4pooling
     outputLater.Randomize(-0.1,0.1);
 
     Matrix testData,testExpected;
@@ -160,7 +160,7 @@ void Zad3(){
 
 int main() {
     //Zad1();
-    Zad2();
-    //Zad3();
+    //Zad2();
+    Zad3();
     return 0;
 }
