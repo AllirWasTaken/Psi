@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(Lab5 main.cpp
         ConvolutionNeuralNetwork.cpp
         ConvolutionNeuralNetwork.h
-        Matrix.cpp Matrix.h)
+        Matrix.cpp Matrix.h
+        ActivationFunctions.cpp ActivationFunctions.h)
 
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g")

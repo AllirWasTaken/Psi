@@ -31,7 +31,7 @@ void LoadDataBase(const char *labelName,const char *imagesName,Matrix &input,Mat
         labelCount=testUnion.number;
     }
 
-    labelCount=100;
+    labelCount=10000;
 
     Matrix newExpected(labelCount,10);
     newExpected.SetZero();
@@ -120,7 +120,7 @@ void Zad2(){
 
     for(int i=0;i<50;i++){
         int score=Test2(testData,testExpected,filters,outputLater);
-        std::cout<<"Era "<<i+1<<score<<"/10000 "<<(float)score/100.0f<<"%"<<std::endl;
+        std::cout<<"Era "<<i+1<<" "<<score<<"/10000 "<<(float)score/100.0f<<"%"<<std::endl;
         ConvolutionUpdate2(trainData,trainExpected,filters,outputLater,0.01);
     }
 
@@ -133,6 +133,27 @@ void Zad2(){
 
 
 void Zad3(){
+
+    std::cout<<"Zad 3"<<std::endl;
+
+    Matrix filters(9,16);
+    filters.Randomize(-0.01,0.01);
+    Matrix outputLater(274,10); //10816 to 16 filtrów x 676 powarstwowanych obrazów/4pooling
+    outputLater.Randomize(-0.1,0.1);
+
+    Matrix testData,testExpected;
+    Matrix trainData,trainExpected;
+    LoadDataBase("../t10k-labels.idx1-ubyte","../t10k-images.idx3-ubyte",testData,testExpected);
+    LoadDataBase("../train-labels.idx1-ubyte","../train-images.idx3-ubyte",trainData,trainExpected);
+
+
+
+
+    for(int i=0;i<50;i++){
+        int score=Test3(testData,testExpected,filters,outputLater);
+        std::cout<<"Era "<<i+1<<" "<<score<<"/10000 "<<(float)score/100.0f<<"%"<<std::endl;
+        ConvolutionUpdate3(trainData,trainExpected,filters,outputLater,0.01);
+    }
 
 }
 
