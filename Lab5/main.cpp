@@ -31,7 +31,7 @@ void LoadDataBase(const char *labelName,const char *imagesName,Matrix &input,Mat
         labelCount=testUnion.number;
     }
 
-    labelCount=10000;
+    labelCount=10;
 
     Matrix newExpected(labelCount,10);
     newExpected.SetZero();
