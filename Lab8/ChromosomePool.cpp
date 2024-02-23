@@ -58,3 +58,18 @@ std::vector<Chromosome> ChromosomePool::GetBest(float fraction) {
 Chromosome &ChromosomePool::operator[](int index) {
     return population[index];
 }
+
+void ChromosomePool::Rulette(float fraction) {
+    std::vector<float> score;
+    score.resize(size);
+
+    float scoreSum=0;
+
+    for(int i=0;i<size;i++){
+        score[i]=population[i].evaluate(evaluationFunction);
+        scoreSum+=score[i];
+    }
+    
+
+
+}

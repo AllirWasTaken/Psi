@@ -11,6 +11,15 @@ float EvaluationZad1(std::vector<int>& vector){
     return (float)sum;
 }
 
+float EvaluationZad2(std::vector<int>& vector){
+    int sum=0;
+    for (int i = 0; i < vector.size(); i++)
+        sum += vector[i];
+
+    return (float)sum;
+}
+
+
 
 int main() {
     //Zad1
@@ -45,14 +54,14 @@ int main() {
     //Zad2
     {
         std::cout<<"Zad2\n\n";
-        ChromosomePool pool(10, 10,false);
-        pool.evaluationFunction = EvaluationZad1;
+        ChromosomePool pool(10, 8);
+        pool.evaluationFunction = EvaluationZad2;
         int era=0;
         float target=10;
         float last=0;
         while(true) {
             auto best = pool.GetBest(0.2f);
-            float current=best[0].evaluate(EvaluationZad1);
+            float current=best[0].evaluate(EvaluationZad2);
             if(last!=current) {
                 last= current;
                 std::cout << "Era: " << era << "\nEvaluation: " << current << "/" << target<<std::endl;
