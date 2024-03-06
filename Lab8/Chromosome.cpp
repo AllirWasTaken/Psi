@@ -10,16 +10,28 @@ Chromosome::Chromosome(int length) {
     }
 }
 
-void Chromosome::Mutate(float chance) {
+void Chromosome::Mutate(float chance,bool full) {
     int chancePer=chance*100;
 
-    if(chancePer>=Random(100)){
-        int pos=Random(length-1);
-        if(genes[pos]){
-            genes[pos]=0;
+    if(full){
+        for(int i=0;i<length;i++){
+            if (chancePer >= Random(100)) {
+                if (genes[i]) {
+                    genes[i] = 0;
+                } else {
+                    genes[i] = 1;
+                }
+            }
         }
-        else{
-            genes[pos]=1;
+    }
+    else {
+        if (chancePer >= Random(100)) {
+            int pos = Random(length - 1);
+            if (genes[pos]) {
+                genes[pos] = 0;
+            } else {
+                genes[pos] = 1;
+            }
         }
     }
 }

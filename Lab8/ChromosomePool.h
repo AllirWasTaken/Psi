@@ -10,7 +10,8 @@ public:
     ChromosomePool(int size,int length,bool ran=true);
     Chromosome& operator[](int index);
     std::vector<Chromosome> GetBest(float fraction);
-    void Rulette(float fraction);
+    void Rulette2(float fraction,float mutation,bool full=false);
+    void Rulette3(float mutation);
 private:
      void SortPops(std::vector<float> &score);
 

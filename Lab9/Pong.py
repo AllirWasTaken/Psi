@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Based on https://python101.readthedocs.io/pl/latest/pygame/pong/#
+import numpy as np
 import pygame
 from typing import Type
 import skfuzzy as fuzz
@@ -235,14 +236,30 @@ class FuzzyPlayer(Player):
     def __init__(self, racket: Racket, ball: Ball, board: Board):
         super(FuzzyPlayer, self).__init__(racket, ball, board)
         # for Mamdami:
-        # x_dist = fuzz.control.Antecedent...
-        # y_dist = fuzz.control.Antecedent...
-        # velocity = fuzz.control.Consequent...
-        # self.racket_controller = fuzz.control.ControlSystem...
+        x_dist = fuzz.control.Antecedent(np.arange(-400,400,1),'X')
+        #y_dist = fuzz.control.Antecedent(np.arange(0,400,1),'Y')
+        velocity = fuzz.control.Consequent(np.arange(-100,101,1),'Speed')
+
+
+
+        x_dist['ToLeft'] =fuzz.trimf(x_dist.universe, [-400, -400, 200])
+        x_dist['ToRight'] =fuzz.trimf(x_dist.universe, [-200, 400, 400])
+
+        #y_dist.automf(3)
 
         # visualize Mamdami
-        # x_dist.view()
-        # ...
+
+        velocity['left'] = fuzz.trimf(velocity.universe, [-100, -100, 50])
+        velocity['right'] = fuzz.trimf(velocity.universe, [-50, 100, 100])
+
+        #x_dist.view()
+        #velocity.view()
+        rule1 = fuzzcontrol.Rule(x_dist['ToLeft'], velocity['left'])
+        rule3 = fuzzcontrol.Rule(x_dist['ToRight'], velocity['right'])
+        control=fuzzcontrol.ControlSystem([rule1,rule3])
+        self.racket_controller = fuzzcontrol.ControlSystemSimulation(control)
+
+
 
         # for TSK:
         # self.x_universe = np.arange...
@@ -275,8 +292,11 @@ class FuzzyPlayer(Player):
 
     def make_decision(self, x_diff: int, y_diff: int):
         # for Mamdami:
-        # self.racket_controller.compute()
-        # velocity = self.racket_controller.o..
+        self.racket_controller.input['X']=x_diff*-1
+        self.racket_controller.compute()
+        velocity = self.racket_controller.output['Speed']
+        #velocity-=100
+
 
         # for TSK:
         # x_vals = {
@@ -300,10 +320,10 @@ class FuzzyPlayer(Player):
         #     for val in activations
         # ) / sum(activations[val] for val in activations)
 
-        return 0
+        return velocity
 
 
 if __name__ == "__main__":
-    game = PongGame(800, 400, NaiveOponent, HumanPlayer)
-    # game = PongGame(800, 400, NaiveOponent, FuzzyPlayer)
+    #game = PongGame(800, 400, NaiveOponent, HumanPlayer)
+    game = PongGame(800, 400, NaiveOponent, FuzzyPlayer)
     game.run()

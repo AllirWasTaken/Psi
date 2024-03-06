@@ -6,7 +6,7 @@ class Chromosome {
 public:
     Chromosome(int length=0);
     std::vector<int> genes;
-    void Mutate(float chance);
+    void Mutate(float chance,bool full= false);
     Chromosome operator+(Chromosome b);
     int length;
     int& operator[](int index);
